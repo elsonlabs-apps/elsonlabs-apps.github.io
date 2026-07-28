@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elson Labs — Laboratorio de desarrollo de software</title>
+<meta name="description" content="Elson Labs transforma ideas en aplicaciones fluidas, eficientes y adaptadas a cada proyecto. Mobile, PWAs y desarrollo web impulsado por IA.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#0a1830;
+    --navy-900:#112a53;
+    --navy-800:#1b3a66;
+    --cyan-400:#37c9d6;
+    --cyan-300:#7fe2ea;
+    --purple:#8a2be2;
+    --ink:#0f1c2e;
+    --muted:#5c7290;
+    --bg:#f6f9fb;
+    --white:#ffffff;
+    --border-light: rgba(17,42,83,0.10);
+    --border-dark: rgba(127,226,234,0.20);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.eyebrow,.logo-word{font-family:'Space Grotesk',sans-serif;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  section{padding:6rem 1.5rem;}
+  .wrap{max-width:1120px;margin:0 auto;}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:.5rem;
+    font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--cyan-400);
+    margin-bottom:1rem;
+  }
+  .eyebrow::before{
+    content:"";width:6px;height:6px;border-radius:50%;
+    background:var(--cyan-400);
+    box-shadow:0 0 0 4px rgba(55,201,214,0.18);
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(246,249,251,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border-light);
+  }
+  nav{
+    max-width:1120px;margin:0 auto;padding:.9rem 1.5rem;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{display:flex;align-items:center;gap:.6rem;}
+  .brand img{width:34px;height:34px;}
+  .logo-word{font-weight:700;font-size:1.05rem;color:var(--navy-900);letter-spacing:-.01em;}
+  .nav-links{display:flex;align-items:center;gap:2rem;}
+  .nav-links a{font-size:.92rem;font-weight:500;color:var(--navy-900);opacity:.75;transition:opacity .2s;}
+  .nav-links a:hover{opacity:1;}
+  .nav-cta{
+    background:var(--navy-900);color:var(--white)!important;
+    padding:.55rem 1.15rem;border-radius:8px;font-weight:600!important;font-size:.88rem!important;
+    opacity:1!important;
+  }
+  .nav-cta:hover{background:var(--navy-800);}
+  .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:.4rem;}
+  .nav-toggle span{display:block;width:22px;height:2px;background:var(--navy-900);margin:5px 0;border-radius:2px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(circle at 1px 1px, rgba(127,226,234,0.10) 1px, transparent 0) 0 0/28px 28px,
+      linear-gradient(180deg,var(--navy-950) 0%, var(--navy-900) 100%);
+    color:var(--white);
+    padding:6.5rem 1.5rem 5rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    max-width:1120px;margin:0 auto;
+    display:grid;grid-template-columns:1.15fr .85fr;gap:3rem;align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.2rem,4.2vw,3.4rem);
+    line-height:1.12;
+    font-weight:700;
+    letter-spacing:-.02em;
+    margin:0 0 1.3rem;
+  }
+  .hero h1 em{
+    font-style:normal;color:var(--cyan-300);
+  }
+  .hero p.lead{
+    color:rgba(255,255,255,0.72);
+    font-size:1.08rem;line-height:1.65;
+    max-width:38ch;
+    margin:0 0 2.2rem;
+  }
+  .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:.5rem;
+    padding:.85rem 1.5rem;border-radius:9px;
+    font-weight:600;font-size:.94rem;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    border:1px solid transparent;
+  }
+  .btn-primary{
+    background:var(--cyan-400);color:var(--navy-950);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(55,201,214,0.28);}
+  .btn-ghost{
+    border-color:rgba(255,255,255,0.28);color:var(--white);
+  }
+  .btn-ghost:hover{border-color:var(--cyan-300);color:var(--cyan-300);}
+
+  /* Circuit signature diagram in hero */
+  .circuit-panel{position:relative;}
+  .circuit-panel svg{width:100%;height:auto;overflow:visible;}
+  .trace{
+    fill:none;stroke:var(--cyan-400);stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:400;stroke-dashoffset:400;
+    animation:draw 1.6s ease forwards;
+  }
+  .trace.d2{animation-delay:.25s;}
+  .trace.d3{animation-delay:.5s;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  .node{fill:var(--cyan-300);}
+  .node-pulse{
+    animation:pulse 2.4s ease-in-out infinite;
+    transform-origin:center;
+  }
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .pillar-label{
+    font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:600;
+    fill:rgba(255,255,255,0.88);
+  }
+  .logo-chip{
+    fill:var(--white);
+  }
+
+  /* ---------- SOBRE ---------- */
+  .about-top{max-width:62ch;margin-bottom:3rem;}
+  .about-top h2{font-size:clamp(1.7rem,3vw,2.3rem);margin:0 0 1rem;letter-spacing:-.01em;color:var(--navy-900);}
+  .about-top p{color:var(--muted);font-size:1.05rem;line-height:1.7;}
+
+  .feature-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;
+  }
+  .feature-card{
+    background:var(--white);
+    border:1px solid var(--border-light);
+    border-radius:14px;
+    padding:2rem 1.6rem;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .feature-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 32px rgba(17,42,83,0.08);
+    border-color:rgba(55,201,214,0.35);
+  }
+  .feature-card svg{width:40px;height:40px;margin-bottom:1.2rem;}
+  .feature-card h3{font-size:1.05rem;margin:0 0 .6rem;color:var(--navy-900);}
+  .feature-card p{font-size:.92rem;color:var(--muted);line-height:1.6;margin:0;}
+
+  /* ---------- STACK ---------- */
+  .stack-section{background:var(--navy-950);color:var(--white);}
+  .stack-section .about-top h2{color:var(--white);}
+  .stack-section .about-top p{color:rgba(255,255,255,0.62);}
+  .stack-grid{display:flex;flex-wrap:wrap;gap:.9rem;}
+  .chip{
+    display:inline-flex;align-items:center;gap:.55rem;
+    background:rgba(255,255,255,0.05);
+    border:1px solid var(--border-dark);
+    padding:.6rem 1.15rem;border-radius:100px;
+    font-size:.9rem;font-weight:500;
+    transition:background .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  .chip:hover{background:rgba(55,201,214,0.10);border-color:var(--cyan-400);transform:translateY(-2px);}
+  .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan-400);flex:none;}
+
+  /* ---------- PROYECTOS ---------- */
+  .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;}
+  .project-card{
+    background:var(--white);
+    border:1px solid var(--border-light);
+    border-radius:16px;
+    padding:2rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .project-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--cyan-400),var(--navy-900));
+  }
+  .project-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;gap:1rem;}
+  .project-top h3{margin:0;font-size:1.2rem;color:var(--navy-900);}
+  .badge{
+    font-size:.74rem;font-weight:700;letter-spacing:.03em;
+    padding:.32rem .7rem;border-radius:100px;white-space:nowrap;
+  }
+  .badge-live{background:#e8f9f2;color:#0e8a5f;}
+  .badge-type{background:var(--bg);color:var(--navy-900);border:1px solid var(--border-light);font-weight:600;}
+  .project-card p{color:var(--muted);font-size:.94rem;line-height:1.6;margin:0 0 1.2rem;}
+  .project-meta{display:flex;gap:.6rem;flex-wrap:wrap;}
+
+  .project-card.placeholder{
+    border:1.5px dashed rgba(17,42,83,0.22);
+    display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+    color:var(--muted);
+    min-height:100%;
+  }
+  .project-card.placeholder::before{display:none;}
+  .project-card.placeholder svg{width:30px;height:30px;margin-bottom:1rem;}
+  .project-card.placeholder h3{font-size:1rem;color:var(--navy-900);margin:0 0 .4rem;}
+  .project-card.placeholder p{margin:0;font-size:.88rem;}
+
+  /* ---------- CONTACTO ---------- */
+  .contact-section{
+    background:linear-gradient(135deg,var(--navy-900),var(--navy-950));
+    color:var(--white);
+    border-radius:24px;
+    margin:0 1.5rem 6rem;
+    padding:4rem 2rem;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .contact-section h2{font-size:clamp(1.6rem,3vw,2.1rem);margin:0 0 .8rem;}
+  .contact-section p{color:rgba(255,255,255,0.68);max-width:46ch;margin:0 auto 2.2rem;line-height:1.6;}
+  .contact-links{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;}
+  .contact-links a{
+    display:inline-flex;align-items:center;gap:.5rem;
+    padding:.8rem 1.4rem;border-radius:9px;
+    border:1px solid rgba(255,255,255,0.22);
+    font-weight:600;font-size:.9rem;
+    transition:border-color .2s ease, color .2s ease, transform .2s ease;
+  }
+  .contact-links a:hover{border-color:var(--cyan-300);color:var(--cyan-300);transform:translateY(-2px);}
+  .contact-links a.disabled{opacity:.4;pointer-events:none;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:2.5rem 1.5rem;
+    border-top:1px solid var(--border-light);
+  }
+  .footer-wrap{
+    max-width:1120px;margin:0 auto;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
+  }
+  .footer-brand{display:flex;align-items:center;gap:.6rem;}
+  .footer-brand img{width:24px;height:24px;}
+  .footer-brand span{font-size:.85rem;color:var(--muted);}
+  footer .fine{font-size:.8rem;color:var(--muted);}
+
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .circuit-panel{order:-1;max-width:280px;margin:0 auto 1rem;}
+    .feature-grid{grid-template-columns:1fr;}
+    .projects-grid{grid-template-columns:1fr;}
+    .nav-links{
+      position:fixed;top:64px;left:0;right:0;
+      background:var(--bg);
+      flex-direction:column;align-items:flex-start;
+      padding:1.2rem 1.5rem 1.6rem;
+      border-bottom:1px solid var(--border-light);
+      gap:1.1rem;
+      transform:translateY(-130%);
+      transition:transform .25s ease;
+    }
+    .nav-links.open{transform:translateY(0);}
+    .nav-cta{width:100%;justify-content:center;}
+    .nav-toggle{display:block;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#top" class="brand">
+      <img src="assets/logo.png" alt="Elson Labs">
+      <span class="logo-word">Elson Labs</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="#sobre">Sobre nosotros</a>
+      <a href="#stack">Stack</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#contacto" class="nav-cta">Contactar</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Laboratorio de desarrollo de software</span>
+        <h1>Convertimos ideas en apps rápidas, fluidas y listas para <em>escalar</em>.</h1>
+        <p class="lead">Combinamos la agilidad del desarrollo impulsado por inteligencia artificial con arquitecturas sólidas y ligeras. Iteramos rápido, sin comprometer la calidad ni la experiencia de usuario.</p>
+        <div class="hero-actions">
+          <a href="https://github.com/elson-labs" class="btn btn-primary">Ver en GitHub</a>
+          <a href="mailto:elsonlabs.apps@gmail.com" class="btn btn-ghost">Escríbenos</a>
+        </div>
+      </div>
+
+      <div class="circuit-panel" aria-hidden="true">
+        <svg viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg">
+          <!-- logo chip -->
+          <rect class="logo-chip" x="112" y="4" width="96" height="96" rx="20"/>
+          <image href="assets/logo.png" x="120" y="12" width="80" height="80"/>
+
+          <!-- trace to mobile -->
+          <path class="trace" d="M112 30 H60 V110" />
+          <circle class="node node-pulse" cx="60" cy="120" r="5"/>
+          <text class="pillar-label" x="20" y="150">Mobile & PWAs</text>
+
+          <!-- trace to web -->
+          <path class="trace d2" d="M160 100 V150" />
+          <circle class="node node-pulse" cx="160" cy="160" r="5"/>
+          <text class="pillar-label" x="103" y="190" text-anchor="middle">Web Apps</text>
+
+          <!-- trace to AI stack -->
+          <path class="trace d3" d="M208 30 H260 V110" />
+          <circle class="node node-pulse" cx="260" cy="120" r="5"/>
+          <text class="pillar-label" x="207" y="150">Adaptive Stack</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="wrap">
+      <div class="about-top reveal">
+        <span class="eyebrow">Sobre Elson Labs</span>
+        <h2>Un laboratorio, no una fábrica de plantillas.</h2>
+        <p>Elson Labs transforma ideas en aplicaciones fluidas, eficientes y adaptadas a las necesidades reales de cada proyecto. Elegimos las mejores herramientas y lenguajes según la naturaleza de cada encargo, desde prototipos rápidos hasta sistemas escalables.</p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card reveal">
+          <svg viewBox="0 0 40 40" fill="none"><rect x="12" y="4" width="16" height="32" rx="4" stroke="#37c9d6" stroke-width="2"/><path d="M12 12 H4 V24" stroke="#112a53" stroke-width="2" stroke-linecap="round"/><circle cx="4" cy="28" r="2.5" fill="#37c9d6"/><circle cx="20" cy="30" r="1.5" fill="#112a53"/></svg>
+          <h3>Mobile & PWAs</h3>
+          <p>Apps nativas e instalables (Android / Progressive Web Apps) priorizando rendimiento y experiencia de usuario.</p>
+        </div>
+        <div class="feature-card reveal">
+          <svg viewBox="0 0 40 40" fill="none"><rect x="4" y="8" width="32" height="24" rx="3" stroke="#37c9d6" stroke-width="2"/><path d="M4 15 H36" stroke="#37c9d6" stroke-width="2"/><path d="M20 32 V15" stroke="#112a53" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="11.5" r="1.3" fill="#112a53"/><circle cx="14" cy="11.5" r="1.3" fill="#112a53"/></svg>
+          <h3>Web Applications</h3>
+          <p>Soluciones web modernas, eficientes y de respuesta rápida, construidas con arquitecturas ligeras.</p>
+        </div>
+        <div class="feature-card reveal">
+          <svg viewBox="0 0 40 40" fill="none"><path d="M22 4 L10 22 H18 L16 36 L30 16 H22 Z" stroke="#37c9d6" stroke-width="2" stroke-linejoin="round"/><circle cx="10" cy="22" r="1.6" fill="#112a53"/><circle cx="30" cy="16" r="1.6" fill="#112a53"/></svg>
+          <h3>Adaptive Tech Stack</h3>
+          <p>Elegimos las herramientas y lenguajes según cada proyecto, desde prototipos hasta sistemas escalables.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack" class="stack-section">
+    <div class="wrap">
+      <div class="about-top reveal">
+        <span class="eyebrow">Stack tecnológico</span>
+        <h2>Herramientas que usamos de forma recurrente.</h2>
+        <p>No nos limitamos a un único ecosistema, pero estas son las tecnologías con las que trabajamos día a día.</p>
+      </div>
+      <div class="stack-grid reveal">
+        <span class="chip"><span class="dot"></span>TypeScript</span>
+        <span class="chip"><span class="dot"></span>JavaScript</span>
+        <span class="chip"><span class="dot"></span>Python</span>
+        <span class="chip"><span class="dot"></span>Docker</span>
+        <span class="chip"><span class="dot"></span>Google Play</span>
+        <span class="chip"><span class="dot"></span>PWA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROYECTOS -->
+  <section id="proyectos">
+    <div class="wrap">
+      <div class="about-top reveal">
+        <span class="eyebrow">Ecosistema de proyectos</span>
+        <h2>Lo que estamos construyendo.</h2>
+        <p>Un vistazo a las aplicaciones que hemos publicado y lo que viene después.</p>
+      </div>
+
+      <div class="projects-grid">
+        <div class="project-card reveal">
+          <div class="project-top">
+            <h3>WC2026 Bracket</h3>
+            <span class="badge badge-live">🚀 Publicada</span>
+          </div>
+          <p>Arma y comparte tu cuadro del Mundial 2026, predice grupos y sigue tus logros.</p>
+          <div class="project-meta">
+            <span class="badge badge-type">Mobile</span>
+          </div>
+        </div>
+
+        <div class="project-card placeholder reveal">
+          <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="16" stroke="#5c7290" stroke-width="1.6" stroke-dasharray="4 4"/><path d="M20 13 V27 M13 20 H27" stroke="#5c7290" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <h3>Próximo proyecto</h3>
+          <p>Estamos trabajando en la siguiente app del ecosistema Elson Labs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="contact-section reveal">
+      <span class="eyebrow">Contacto & colaboración</span>
+      <h2>¿Tienes una idea? Hablemos.</h2>
+      <p>Escríbenos si quieres saber más sobre nuestras aplicaciones o colaborar en un proyecto.</p>
+      <div class="contact-links">
+        <a href="mailto:elsonlabs.apps@gmail.com">📧 elsonlabs.apps@gmail.com</a>
+        <a href="https://github.com/elson-labs">🌐 GitHub</a>
+        <a href="#" class="disabled">📱 Google Play (próximamente)</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="Elson Labs">
+      <span>© 2026 Elson Labs — Building high-performance apps, web experiences, and digital tools.</span>
+    </div>
+    <span class="fine">Hecho con arquitecturas ligeras y un poco de IA.</span>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
